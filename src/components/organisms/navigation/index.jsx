@@ -5,7 +5,7 @@ import { Box, Typography } from "@mui/material";
 import { NavGroup } from "../../molecules/navGroup";
 
 //
-import { DashboardOutlined } from "@ant-design/icons";
+import { DashboardOutlined, SettingOutlined } from "@ant-design/icons";
 import { SimpleBarScroll } from "../simplebar";
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 
@@ -23,6 +23,21 @@ const navItems = [
         icon: DashboardOutlined,
         breadcrumbs: false,
       },
+    ],
+  },
+  {
+    id: "group-settings",
+    title: "Settings",
+    type: "group",
+    children: [
+      {
+        id: "api-configuration",
+        title: "API configuration",
+        type: "item",
+        url: "/settings",
+        icon: SettingOutlined,
+        breadcrumbs: true,
+    },
     ],
   },
 ];
