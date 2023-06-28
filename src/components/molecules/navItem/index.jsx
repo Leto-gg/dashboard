@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { forwardRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -39,6 +39,7 @@ export const NavItem = ({ item, level }) => {
   let listItemProps = {
     component: forwardRef(ListComponent),
   };
+
   if (item?.external) {
     listItemProps = { component: "a", href: item.url, target: itemTarget };
   }
@@ -58,7 +59,7 @@ export const NavItem = ({ item, level }) => {
   // active menu item on page load
   useEffect(() => {
     if (pathname.includes(item.url)) {
-      // dispatch(activeItem({ openItem: [item.id] }));
+      dispatch(activeItem({ openItem: [item.id] }));
     }
     // eslint-disable-next-line
   }, [pathname]);
@@ -69,6 +70,8 @@ export const NavItem = ({ item, level }) => {
   return (
     <ListItemButton
       {...listItemProps}
+      url={item.url}
+      itemTarget={itemTarget}
       disabled={item.disabled}
       onClick={() => itemHandler(item.id)}
       selected={isSelected}
@@ -133,12 +136,19 @@ export const NavItem = ({ item, level }) => {
       {(drawerOpen || (!drawerOpen && level !== 1)) && (
         <ListItemText
           primary={
-            <Typography
-              variant="h6"
-              sx={{ color: isSelected ? iconSelectedColor : textColor }}
-            >
-              {item.title}
-            </Typography>
+            <>
+              <Typography
+                variant="h6"
+                sx={{ color: isSelected ? iconSelectedColor : textColor }}
+              >
+                {item.title}
+              </Typography>
+              {item.subtitle && (
+                <Typography variant="subtitle2" sx={{ color: textColor }}>
+                  {item.subtitle}
+                </Typography>
+              )}
+            </>
           }
         />
       )}
