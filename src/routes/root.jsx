@@ -1,5 +1,4 @@
 import { MainDrawer } from "../components/organisms/mainDrawer";
-import DrawerHeader from "../components/molecules/drawerHeader";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,12 +8,15 @@ import { useTheme } from "@mui/material/styles";
 import { Box, Toolbar, useMediaQuery } from "@mui/material";
 
 // project import
-// import navigation from "menu-items";
-// import Breadcrumbs from "components/@extended/Breadcrumbs";
-import "./root.css";
+import { AppHeader } from "../components/organisms/appHeader";
+import Breadcrumbs from "../components/atoms/Breadcrumbs";
+import { navItems } from "../components/organisms/navigation/navItems";
 
 // types
 import { openDrawer } from "../libs/redux/slices/drawer.slice";
+
+// css
+import "./root.css";
 
 export function Root() {
   const theme = useTheme();
@@ -45,14 +47,19 @@ export function Root() {
 
   return (
     <Box sx={{ display: "flex", width: "100%" }}>
-      <DrawerHeader open={open} handleDrawerToggle={handleDrawerToggle} />
+      <AppHeader open={open} handleDrawerToggle={handleDrawerToggle} />
       <MainDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
       <Box
         component="main"
         sx={{ width: "100%", flexGrow: 1, p: { xs: 2, sm: 3 } }}
       >
         <Toolbar />
-        {/* <Breadcrumbs navigation={navigation} title /> */}
+        <Breadcrumbs
+          navigation={{
+            items: navItems,
+          }}
+          title
+        />
         <Outlet />
       </Box>
     </Box>
