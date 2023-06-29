@@ -5,42 +5,9 @@ import { Box, Typography } from "@mui/material";
 import { NavGroup } from "../../molecules/navGroup";
 
 //
-import { DashboardOutlined, SettingOutlined } from "@ant-design/icons";
 import { SimpleBarScroll } from "../simplebar";
+import { navItems } from "./navItems";
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
-
-const navItems = [
-  {
-    id: "group-dashboard",
-    title: "Navigation",
-    type: "group",
-    children: [
-      {
-        id: "dashboard",
-        title: "Dashboard",
-        type: "item",
-        url: "/",
-        icon: DashboardOutlined,
-        breadcrumbs: false,
-      },
-    ],
-  },
-  {
-    id: "group-settings",
-    title: "Settings",
-    type: "group",
-    children: [
-      {
-        id: "api-configuration",
-        title: "API configuration",
-        type: "item",
-        url: "/settings",
-        icon: SettingOutlined,
-        breadcrumbs: true,
-    },
-    ],
-  },
-];
 
 function DrawerContent() {
   const navGroups = navItems.map((item) => {
