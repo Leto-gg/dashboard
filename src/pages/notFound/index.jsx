@@ -8,7 +8,7 @@ const Container = styled.div`
   gap: 4px;
 `;
 
-export function NotFound() {
+export default function NotFound() {
   return (
     <Container>
       <Typography variant="overline" aria-label="">
