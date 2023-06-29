@@ -25,7 +25,7 @@ export function MainDrawer({ open, handleDrawerToggle, window }) {
     <Box
       component="nav"
       sx={{ flexShrink: { md: 0 }, zIndex: 1300 }}
-      aria-label="mailbox folders"
+      aria-label="navigation menu"
     >
       {!matchDownMD ? (
         <MiniDrawer variant="permanent" open={open}>
