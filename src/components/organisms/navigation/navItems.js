@@ -25,7 +25,7 @@ export const navItems = [
         id: "api-configuration",
         title: "API configuration",
         type: "item",
-        url: "/settings",
+        url: "/config",
         icon: SettingOutlined,
         breadcrumbs: true,
       },

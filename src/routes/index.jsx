@@ -18,7 +18,7 @@ export const routes = [
         element: <Dashboard />,
       },
       {
-        path: "/settings",
+        path: "/config",
         element: <Settings />,
       },
     ],
