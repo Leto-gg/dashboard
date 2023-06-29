@@ -1,4 +1,8 @@
-import { DashboardOutlined, SettingOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  SaveOutlined,
+  NodeIndexOutlined,
+} from "@ant-design/icons";
 
 export const navItems = [
   {
@@ -26,7 +30,17 @@ export const navItems = [
         title: "API configuration",
         type: "item",
         url: "/config",
-        icon: SettingOutlined,
+        icon: NodeIndexOutlined,
+        breadcrumbs: true,
+      },
+      {
+        id: "cid-configuration",
+        title: "CIDs",
+        subtitle: "coming soon",
+        disabled: true,
+        type: "item",
+        url: "/cids",
+        icon: SaveOutlined,
         breadcrumbs: true,
       },
     ],

@@ -27,6 +27,10 @@ export const routes = [
         path: "/config",
         element: <Configuration />,
       },
+      {
+        path: "/cids",
+        element: <Configuration />,
+      },
     ],
   },
 ];
