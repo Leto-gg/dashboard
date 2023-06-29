@@ -6,8 +6,9 @@ import { Root } from "./root";
 
 const Dashboard = SuspenseWrapper(lazy(() => import("../pages/dashboard")));
 const NotFound = SuspenseWrapper(lazy(() => import("../pages/notFound")));
-const Settings = SuspenseWrapper(lazy(() => import("../pages/settings")));
-
+const Configuration = SuspenseWrapper(
+  lazy(() => import("../pages/configuration"))
+);
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -24,7 +25,7 @@ export const routes = [
       },
       {
         path: "/config",
-        element: <Settings />,
+        element: <Configuration />,
       },
     ],
   },
