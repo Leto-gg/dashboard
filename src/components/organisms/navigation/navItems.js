@@ -36,7 +36,7 @@ export const navItems = [
       {
         id: "api-configuration",
         title: "API configuration",
-        subtitle: "coming soon",
+        subtitle: "Coming soon!",
         disabled: true,
         type: "item",
         url: "/config",
