@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useCallback } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 
@@ -16,16 +17,15 @@ export const useFetch = () => {
   const ctrl = useRef(null);
   const [state, setState] = useState({ type: FETCHING_STATES.IDLE });
 
-  const abort = () => {
+  const abort = useCallback(() => {
     ctrl.current?.abort();
-  };
+  }, [ctrl]);
 
   /**
-   *
    * @param {Promise<T>} promiseFn
    * @returns
    */
-  const handleFetch = async (promiseFn) => {
+  const handleFetch = useCallback(async (promiseFn) => {
     abort();
 
     ctrl.current = new AbortController();
@@ -33,7 +33,7 @@ export const useFetch = () => {
     setState({ type: FETCHING_STATES.PENDING });
 
     try {
-      const data = await promiseFn(ctrl.current.signal);
+      const { data } = await promiseFn(ctrl.current.signal);
       setState({ type: FETCHING_STATES.DONE, data });
     } catch (error) {
       if (ctrl.current.signal.aborted) {
@@ -43,13 +43,13 @@ export const useFetch = () => {
 
       setState({ type: FETCHING_STATES.FAIL, error });
     }
-  };
+  }, [abort]);
 
   useEffect(() => {
     return () => {
       abort();
     };
-  }, []);
+  }, [abort]);
 
   return [state, handleFetch, abort];
 };
