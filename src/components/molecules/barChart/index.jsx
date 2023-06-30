@@ -38,7 +38,8 @@ const barChartOptions = {
     theme: "light",
   },
   yaxis: {
-    show: false,
+    show: true,
+    axisBorder: false,
   },
   grid: {
     show: false,
