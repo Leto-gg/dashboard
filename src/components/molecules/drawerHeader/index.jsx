@@ -22,8 +22,9 @@ const DrawerHeaderStyled = styled(Box, {
 }));
 
 const StyledLink = styled(Link)`
-  text-decoration: none;
   color: inherit;
+  cursor: pointer;
+  text-decoration: none;
   &:active,
   &:hover {
     color: inherit;
