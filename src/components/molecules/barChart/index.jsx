@@ -42,7 +42,7 @@ const barChartOptions = {
     axisBorder: false,
   },
   grid: {
-    show: false,
+    show: true,
   },
 };
 
@@ -87,7 +87,7 @@ export function BarChart({ xAxisLabel, labels, dataPoints }) {
   }, [primary, info, secondary, labels]);
 
   return (
-    <ReactApexChart options={options} series={series} type="bar" height={365} />
+    <ReactApexChart options={options} series={series} type="bar" height={420} />
   );
 }
 
