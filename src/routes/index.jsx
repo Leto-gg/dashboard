@@ -2,10 +2,11 @@
 import { lazy } from "react";
 
 import { SuspenseWrapper } from "./../components/atoms/suspenseWrapper";
-import { Root } from "./root";
+import Root from "./root";
 
 const Dashboard = SuspenseWrapper(lazy(() => import("../pages/dashboard")));
 const NotFound = SuspenseWrapper(lazy(() => import("../pages/notFound")));
+const CIDSPage = SuspenseWrapper(lazy(() => import("../pages/cids")));
 const Configuration = SuspenseWrapper(
   lazy(() => import("../pages/configuration"))
 );
@@ -29,7 +30,7 @@ export const routes = [
       },
       {
         path: "/cids",
-        element: <Configuration />,
+        element: <CIDSPage />,
       },
     ],
   },
