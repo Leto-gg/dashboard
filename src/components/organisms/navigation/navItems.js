@@ -28,6 +28,7 @@ export const navItems = [
       {
         id: "cid-configuration",
         title: "CIDs",
+        showTitle: false,
         type: "item",
         url: "/cids",
         icon: SaveOutlined,
