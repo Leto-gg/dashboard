@@ -105,7 +105,8 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
                 {itemContent}
               </MuiBreadcrumbs>
             </Grid>
-            {title && (
+            {/* Theme change: Move title out of the breadcrumbs */}
+            {item.showTitle && title && (
               <Grid item sx={{ mt: 2 }}>
                 <Typography variant="h5">{item.title}</Typography>
               </Grid>
