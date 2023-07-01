@@ -17,8 +17,9 @@ import { openDrawer } from "../libs/redux/slices/drawer.slice";
 
 // css
 import "./root.css";
+import { useCallback } from "react";
 
-export function Root() {
+export default function Root() {
   const theme = useTheme();
   const matchDownLG = useMediaQuery(theme.breakpoints.down("lg"));
   const dispatch = useDispatch();
@@ -27,10 +28,15 @@ export function Root() {
 
   // drawer toggler
   const [open, setOpen] = useState(drawerOpen);
-  const handleDrawerToggle = () => {
-    setOpen(!open);
-    dispatch(openDrawer({ drawerOpen: !open }));
-  };
+  const handleDrawerToggle = useCallback(() => {
+    setOpen((open) => {
+      const openToggled = !open;
+      dispatch(openDrawer({ drawerOpen: openToggled }));
+      return openToggled;
+    });
+    // needed to update content that needs resize event for responsiveness.
+    window.dispatchEvent(new Event("resize"));
+  }, [dispatch]);
 
   // set media wise responsive drawer
   useEffect(() => {
@@ -41,8 +47,7 @@ export function Root() {
   }, [matchDownLG]);
 
   useEffect(() => {
-    if (open !== drawerOpen) setOpen(drawerOpen);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setOpen((open) => (open !== drawerOpen ? drawerOpen : open));
   }, [drawerOpen]);
 
   return (
