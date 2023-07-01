@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { Alert, Box, Grid, Typography } from "@mui/material";
+import { Alert, Box, CircularProgress, Grid } from "@mui/material";
 
 import { MainCard } from "./../../components/molecules/mainCard";
 import { BarChart } from "../../components/molecules/barChart";
@@ -32,10 +32,7 @@ function CIDAnalytics() {
 
   return (
     <Grid item>
-      <Grid item>
-        <Typography variant="h5">CID Analytics</Typography>
-      </Grid>
-      <MainCard content={false} sx={{ mt: 1.5 }}>
+      <MainCard content={false} sx={{ mt: 1.5 }} title="CID Analytics">
         <Box sx={{ padding: 2 }}>
           {type === FETCHING_STATES.DONE && (
             <BarChart
@@ -45,9 +42,7 @@ function CIDAnalytics() {
             />
           )}
           {type === FETCHING_STATES.PENDING && (
-            <Typography padding={4} variant="body1">
-              Loading...
-            </Typography>
+            <CircularProgress variant="indeterminate" />
           )}
           {type === FETCHING_STATES.FAIL && (
             <Alert severity="error">
