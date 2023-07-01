@@ -6,9 +6,12 @@ import { Loader } from "../loader";
 
 // ==============================|| LOADABLE - LAZY LOADING ||============================== //
 
-export const SuspenseWrapper = (Component) => (props) =>
-  (
-    <Suspense fallback={<Loader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+export function SuspenseWrapper(Component) {
+  return function Loadable(props) {
+    return (
+      <Suspense fallback={<Loader />}>
+        <Component {...props} />
+      </Suspense>
+    );
+  };
+}
