@@ -5,13 +5,14 @@ import { useTheme } from "@mui/material/styles";
 import { Stack, Typography } from "@mui/material";
 
 // material-ui
-import { styled } from "@mui/material/styles";
+import { styled as muiStyled } from "@mui/material/styles";
+import styled from "styled-components";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
 // ==============================|| DRAWER HEADER - STYLED ||============================== //
 
-const DrawerHeaderStyled = styled(Box, {
+const DrawerHeaderStyled = muiStyled(Box, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   ...theme.mixins.toolbar,
@@ -21,14 +22,23 @@ const DrawerHeaderStyled = styled(Box, {
   paddingLeft: theme.spacing(open ? 3 : 0),
 }));
 
-const StyledLink = styled(Link)`
+const StyledLink = muiStyled(Link)`
+  align-items: center;
+  display: flex;
+  gap: 4px;
   color: inherit;
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
   &:active,
   &:hover {
     color: inherit;
   }
+`;
+
+const Image = styled.img`
+  height: 35px;
+  width: 35px;
 `;
 
 // ==============================|| DRAWER HEADER ||============================== //
@@ -41,7 +51,8 @@ export function DrawerHeader({ open }) {
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h4">
           <StyledLink aria-label="app logo home link" to="/" variant="text">
-            Leto Dashboard
+            <Image src="/littleleto.png" loading="lazy" alt="leto logo" />
+            <span>Leto Dashboard</span>
           </StyledLink>
         </Typography>
       </Stack>
