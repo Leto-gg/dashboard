@@ -1,15 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import { AppBar, Box, ClickAwayListener, IconButton, Paper, Popper, Toolbar } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import Toolbar from "@mui/material/Toolbar";
 
 // project import
-import Profile from './Profile';
-import { Transitions } from '../../../atoms/Transitions';
+import Profile from "./Profile";
+import { Transitions } from "../../../atoms/Transitions";
 
 // assets
-import { MoreOutlined } from '@ant-design/icons';
+import { MoreOutlined } from "@ant-design/icons";
 
 // ==============================|| HEADER CONTENT - MOBILE ||============================== //
 
@@ -47,10 +53,10 @@ const MobileSection = () => {
           component="span"
           disableRipple
           sx={{
-            bgcolor: open ? 'grey.300' : 'grey.100'
+            bgcolor: open ? "grey.300" : "grey.100",
           }}
           ref={anchorRef}
-          aria-controls={open ? 'menu-list-grow' : undefined}
+          aria-controls={open ? "menu-list-grow" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
           color="inherit"
@@ -66,17 +72,17 @@ const MobileSection = () => {
         transition
         disablePortal
         style={{
-          width: '100%'
+          width: "100%",
         }}
         popperOptions={{
           modifiers: [
             {
-              name: 'offset',
+              name: "offset",
               options: {
-                offset: [0, 9]
-              }
-            }
-          ]
+                offset: [0, 9],
+              },
+            },
+          ],
         }}
       >
         {({ TransitionProps }) => (
