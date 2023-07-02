@@ -28,8 +28,14 @@ function getCidTypeChipColor(cidType) {
 }
 
 /**
- * @param {{ cids: any[], isLoading: boolean, onRemove: function }} props
- * @returns
+ * @typedef Props
+ * @property {object[]} cidAnalytics
+ * @property {boolean} isLoading
+ * @property {(cid: object) => void} onRemove
+ */
+
+/**
+ * @param {Props} props
  */
 export function CIDTable({ cidAnalytics = [], isLoading = false, onRemove }) {
   if (isLoading) {
@@ -80,7 +86,7 @@ export function CIDTable({ cidAnalytics = [], isLoading = false, onRemove }) {
 }
 
 CIDTable.propTypes = {
-  cidAnalytics: PropTypes.object.isRequired,
+  cidAnalytics: PropTypes.array,
   isLoading: PropTypes.bool,
   onRemove: PropTypes.func.isRequired,
 };
