@@ -1,7 +1,7 @@
 // ==============================|| PRESET THEME - THEME SELECTOR ||============================== //
 
 const Theme = (colors) => {
-  const { blue, red, gold, cyan, green, grey } = colors;
+  const { red, gold, green, grey } = colors;
   const greyColors = {
     0: grey[0],
     50: grey[1],
@@ -25,16 +25,16 @@ const Theme = (colors) => {
 
   return {
     primary: {
-      lighter: blue[0],
-      100: blue[1],
-      200: blue[2],
-      light: blue[3],
-      400: blue[4],
-      main: blue[5],
-      dark: blue[6],
-      700: blue[7],
-      darker: blue[8],
-      900: blue[9],
+      lighter: "#f1e3ed",
+      100: "#dcbad4",
+      200: "#c68db9",
+      light: "#ae629e", // primary
+      400: "#9d438a",
+      main: "#8e227b",
+      dark: "#831e76",
+      700: "#73176f",
+      darker: "#651067",
+      900: "#651067",
       contrastText,
     },
     secondary: {
@@ -70,11 +70,11 @@ const Theme = (colors) => {
       contrastText: greyColors[100],
     },
     info: {
-      lighter: cyan[0],
-      light: cyan[3],
-      main: cyan[5],
-      dark: cyan[7],
-      darker: cyan[9],
+      lighter: "#5c709c",
+      light: "#385185",
+      main: "#202d54",
+      dark: "#293d6c",
+      darker: "#202d54",
       contrastText,
     },
     success: {

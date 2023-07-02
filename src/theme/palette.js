@@ -5,7 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import { presetPalettes } from "@ant-design/colors";
 
 // project import
-import ThemeOption from "./theme";
+import Theme from "./theme";
 
 // ==============================|| DEFAULT THEME - PALETTE  ||============================== //
 
@@ -30,7 +30,7 @@ const Palette = (mode) => {
 
   colors.grey = [...greyPrimary, ...greyAscent, ...greyConstant];
 
-  const paletteColor = ThemeOption(colors);
+  const paletteColor = Theme(colors);
 
   return createTheme({
     palette: {
