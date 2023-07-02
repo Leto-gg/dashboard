@@ -43,6 +43,10 @@ const Image = styled.img`
 
 // ==============================|| DRAWER HEADER ||============================== //
 
+function useImageBaseURL(src) {
+  return import.meta.env.BASE_URL + src;
+}
+
 export function DrawerHeader({ open }) {
   const theme = useTheme();
 
@@ -51,7 +55,7 @@ export function DrawerHeader({ open }) {
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h4">
           <StyledLink aria-label="app logo home link" to="/" variant="text">
-            <Image src="/littleleto.png" loading="lazy" alt="leto logo" />
+            <Image src={useImageBaseURL("/littleleto.png")} loading="lazy" alt="leto logo" />
             <span>Leto Dashboard</span>
           </StyledLink>
         </Typography>
