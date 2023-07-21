@@ -9,7 +9,7 @@ import { Box, Toolbar, useMediaQuery } from "@mui/material";
 
 // project import
 import { AppHeader } from "../components/organisms/appHeader";
-import Breadcrumbs from "../components/atoms/Breadcrumbs";
+import Breadcrumbs from "../components/atoms/breadcrumbs";
 import { navItems } from "../components/organisms/navigation/navItems";
 
 // types

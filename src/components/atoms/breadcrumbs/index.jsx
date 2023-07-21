@@ -7,7 +7,7 @@ import MuiBreadcrumbs from "@mui/material/Breadcrumbs";
 import { Grid, Typography } from "@mui/material";
 
 // project imports
-import { MainCard } from "../molecules/mainCard";
+import { MainCard } from "../../molecules/mainCard";
 import { useCallback } from "react";
 
 // ==============================|| BREADCRUMBS ||============================== //

@@ -12,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 
 // project import
 import Profile from "./Profile";
-import { Transitions } from "../../../atoms/Transitions";
+import { Transitions } from "../../../atoms/transitions";
 
 // assets
 import { MoreOutlined } from "@ant-design/icons";

@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 
 // project import
-import { Transitions } from "../../../../atoms/Transitions";
+import { Transitions } from "../../../../atoms/transitions";
 
 // assets
 import {
