@@ -1,2 +1,19 @@
-# dashboard
-The most current implementation of GUI built by Yasir Nadeem. Thank You Yasir!
+# Leto Dashboard
+
+## Tech
+
+- ReactJS
+- Vite + SWC
+- pnpm
+
+## Setup and installation
+
+```bash
+pnpm install
+```
+
+## Run in development mode
+
+```bash
+pnpm dev
+```
