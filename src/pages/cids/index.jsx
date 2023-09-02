@@ -8,7 +8,7 @@ import { getAnalytics } from "../../api/analytics.api";
 import { CIDTable } from "../../components/organisms/cidTable";
 import { CIDForm } from "../../components/molecules/cidForm";
 
-export default function CIDs() {
+function CIDs() {
   const [{ data, type }, handleFetch] = useFetch();
 
   useEffect(() => {
@@ -31,3 +31,5 @@ export default function CIDs() {
     </Box>
   );
 }
+
+export default CIDs;
