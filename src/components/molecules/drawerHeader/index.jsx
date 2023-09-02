@@ -9,6 +9,7 @@ import { styled as muiStyled } from "@mui/material/styles";
 import styled from "styled-components";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
+import useImageBaseURL from "../../../hooks/useImageBaseURL";
 
 // ==============================|| DRAWER HEADER - STYLED ||============================== //
 
@@ -43,19 +44,17 @@ const Image = styled.img`
 
 // ==============================|| DRAWER HEADER ||============================== //
 
-function useImageBaseURL(src) {
-  return import.meta.env.BASE_URL + src;
-}
-
 export function DrawerHeader({ open }) {
   const theme = useTheme();
+
+  const logoUrl = useImageBaseURL("/littleleto.png");
 
   return (
     <DrawerHeaderStyled theme={theme} open={open}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="h4">
           <StyledLink aria-label="app logo home link" to="/" variant="text">
-            <Image src={useImageBaseURL("/littleleto.png")} loading="lazy" alt="leto logo" />
+            <Image src={logoUrl} loading="lazy" alt="leto logo" />
             <span>Leto Dashboard</span>
           </StyledLink>
         </Typography>
