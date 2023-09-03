@@ -23,10 +23,9 @@ import {
 import { Transitions } from "../../../../atoms/transitions";
 
 // assets
-import {
-  LogoutOutlined,
-} from "@ant-design/icons";
+import { LogoutOutlined } from "@ant-design/icons";
 import { MainCard } from "../../../../molecules/mainCard";
+import useAuth from "../../../../../hooks/useAuth";
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -49,21 +48,16 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `profile-tab-${index}`,
-    "aria-controls": `profile-tabpanel-${index}`,
-  };
-}
-
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 const Profile = () => {
   const theme = useTheme();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     // logout
-    console.log('onLogout');  
+    console.log("onLogout");
+    logout();
   };
 
   const anchorRef = useRef(null);
