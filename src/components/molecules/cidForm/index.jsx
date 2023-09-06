@@ -1,33 +1,37 @@
 import { useState, useCallback } from "react";
+import { PropTypes } from "prop-types";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SaveOutlined from "@ant-design/icons/SaveOutlined";
 
-export function CIDForm() {
+export function CIDForm({ createCID, isLoading = false }) {
   const [cidValue, setCIDValue] = useState("");
 
   const handleChange = useCallback((e) => {
     setCIDValue(e.target.value);
   }, []);
 
-  const handleUpdate = useCallback(() => {
-    console.log("cid to add:", cidValue);
-  }, [cidValue]);
+  const handleCreate = useCallback(() => {
+    createCID(cidValue).then(() => {
+      setCIDValue("");
+    });
+  }, [cidValue, createCID]);
 
   return (
     <Box alignItems="flex-start" display="flex" gap={2} flexDirection="column">
       <TextField
         label="CID"
         spellCheck={false}
-        onKeyUp={handleChange}
-        placeholder="Example CID: bafybeiedv7sowwxamly4oicivudp45rsfvbklnf3fvbvonxrwoxqylhtwq"
+        onChange={handleChange}
+        value={cidValue}
+        placeholder="e.g. bafybeiedv7sowwxamly..."
         fullWidth
       />
       <Button
-        onClick={handleUpdate}
-        disabled={!cidValue}
+        onClick={handleCreate}
+        disabled={!cidValue || isLoading}
         variant="contained"
         color="primary"
         startIcon={<SaveOutlined />}
@@ -37,3 +41,9 @@ export function CIDForm() {
     </Box>
   );
 }
+
+// PropTypes for CIDForm
+CIDForm.propTypes = {
+  createCID: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+};
