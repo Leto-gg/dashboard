@@ -5,6 +5,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SaveOutlined from "@ant-design/icons/SaveOutlined";
+import { styled } from "styled-components";
+
+const CustomTextField = styled(TextField)`
+  label {
+    line-height: 0.95em;
+  }
+`;
 
 export function CIDForm({ createCID, isLoading = false }) {
   const [cidValue, setCIDValue] = useState("");
@@ -21,8 +28,9 @@ export function CIDForm({ createCID, isLoading = false }) {
 
   return (
     <Box alignItems="flex-start" display="flex" gap={2} flexDirection="column">
-      <TextField
+      <CustomTextField
         label="CID"
+        variant="outlined"
         spellCheck={false}
         onChange={handleChange}
         value={cidValue}
