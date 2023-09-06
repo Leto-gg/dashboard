@@ -1,5 +1,9 @@
 import axios from "axios";
-import { clearAuthToken, setAuthToken } from "../utils/auth.helpers";
+import {
+  clearAuthToken,
+  getAuthToken,
+  setAuthToken,
+} from "../utils/auth.helpers";
 
 export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -31,7 +35,7 @@ async function refreshAccessToken() {
  * @param {import("axios").InternalAxiosRequestConfig<any>} config
  */
 function configureClient(config) {
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = getAuthToken();
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
