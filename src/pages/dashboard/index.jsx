@@ -5,12 +5,23 @@ import { Alert, Box, CircularProgress, Grid } from "@mui/material";
 import { MainCard } from "./../../components/molecules/mainCard";
 import { BarChart } from "../../components/molecules/barChart";
 import { middleTruncate } from "../../libs/utils/string.helpers";
-import { FETCHING_STATES, useFetch } from "../../hooks/useFetch";
+import { useQuery } from "react-query";
 import { getAnalytics } from "../../api/analytics.api";
-import { useEffect } from "react";
 
-function CIDAnalytics() {
-  const [{ data, type }, handleFetch] = useFetch();
+function useDashboardAnalytics(...params) {
+  const query = useQuery("analytics", () => getAnalytics(...params));
+
+  return query;
+}
+
+function Graph() {
+  const {
+    data: analyticsData = {},
+    isLoading,
+    error,
+  } = useDashboardAnalytics();
+
+  const { data } = analyticsData;
 
   const labels = useMemo(
     () => data?.data?.map((content) => middleTruncate(content.cid, 6)) ?? [],
@@ -21,35 +32,34 @@ function CIDAnalytics() {
     [data]
   );
 
-  useEffect(() => {
-    handleFetch(() =>
-      getAnalytics(
-        // pass in CIDs that user saved, to get their respective analytics
-        []
-      )
-    );
-  }, [handleFetch]);
+  if (isLoading) {
+    return <CircularProgress variant="indeterminate" />;
+  }
 
+  if (error) {
+    return (
+      <Alert severity="error">
+        Failed to fetch data for the chart, we are working on fixing it as soon
+        as possible!
+      </Alert>
+    );
+  }
+
+  return (
+    <BarChart
+      xAxisLabel="numbersAccessed"
+      labels={labels}
+      dataPoints={dataPoints}
+    />
+  );
+}
+
+function CIDAnalytics() {
   return (
     <Grid item>
       <MainCard content={false} sx={{ mt: 1.5 }} title="CID Analytics">
         <Box sx={{ padding: 2 }}>
-          {type === FETCHING_STATES.DONE && (
-            <BarChart
-              xAxisLabel="numbersAccessed"
-              labels={labels}
-              dataPoints={dataPoints}
-            />
-          )}
-          {type === FETCHING_STATES.PENDING && (
-            <CircularProgress variant="indeterminate" />
-          )}
-          {type === FETCHING_STATES.FAIL && (
-            <Alert severity="error">
-              Failed to fetch data for the chart, we are working on fixing it as
-              soon as possible!
-            </Alert>
-          )}
+          <Graph />
         </Box>
       </MainCard>
     </Grid>
@@ -59,7 +69,7 @@ function CIDAnalytics() {
 export default function Dashboard() {
   return (
     <Grid>
-      <h3>Welcome, John Doe!</h3>
+      <h3>CID performance over last week</h3>
       <CIDAnalytics />
     </Grid>
   );
