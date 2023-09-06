@@ -2,7 +2,7 @@ import axios from "axios";
 import { clearAuthToken, setAuthToken } from "../utils/auth.helpers";
 
 export const httpClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -35,6 +35,7 @@ function configureClient(config) {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+  return config;
 }
 
 async function handleResponseError(error) {
@@ -56,6 +57,6 @@ httpClient.interceptors.request.use(configureClient, (error) =>
 );
 
 httpClient.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   handleResponseError
 );
