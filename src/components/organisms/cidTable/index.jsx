@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 import {
-  Chip,
   CircularProgress,
   IconButton,
   Table,
@@ -12,20 +11,11 @@ import {
   TableRow,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import TablePagination from "@mui/material/TablePagination";
+import Paper from "@mui/material/Paper";
 
-import { getFormattedDate } from "../../../libs/utils/date.helpers";
 import { DeleteOutlined } from "@ant-design/icons";
-
-function getCidTypeChipColor(cidType) {
-  switch (cidType) {
-    case "ipfs":
-      return "primary";
-    case "ipns":
-      return "info";
-    default:
-      return "primary";
-  }
-}
+import { useCallback } from "react";
 
 /**
  * @typedef Props
@@ -37,7 +27,20 @@ function getCidTypeChipColor(cidType) {
 /**
  * @param {Props} props
  */
-export function CIDTable({ cidAnalytics = [], isLoading = false, onRemove }) {
+export function CIDTable({
+  cidAnalytics = [],
+  isLoading = false,
+  onRemove,
+  pagination = {},
+  onPageChange,
+}) {
+  const handlePageChange = useCallback(
+    (_, newPage) => {
+      onPageChange && onPageChange(newPage + 1);
+    },
+    [onPageChange]
+  );
+
   if (isLoading) {
     return <CircularProgress variant="indeterminate" />;
   }
@@ -49,39 +52,37 @@ export function CIDTable({ cidAnalytics = [], isLoading = false, onRemove }) {
   }
 
   return (
-    <TableContainer>
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            <TableCell>CID</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Last Accessed</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {cidAnalytics.map((content) => (
-            <TableRow key={content.cid}>
-              <TableCell>{content.cid}</TableCell>
-              <TableCell>
-                <Chip
-                  aria-label="cid type"
-                  color={getCidTypeChipColor(content.cidType, {})}
-                  label={content.cidType.toUpperCase()}
-                  variant="filled"
-                />
-              </TableCell>
-              <TableCell>{getFormattedDate(content.lastAccessed)}</TableCell>
-              <TableCell>
-                <IconButton onClick={() => onRemove(content)}>
-                  <DeleteOutlined />
-                </IconButton>
-              </TableCell>
+    <Paper>
+      <TableContainer>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell>CID</TableCell>
+              <TableCell></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {cidAnalytics.map((content) => (
+              <TableRow key={content._id}>
+                <TableCell>{content.cid}</TableCell>
+                <TableCell>
+                  <IconButton onClick={() => onRemove(content)}>
+                    <DeleteOutlined />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[]}
+        count={pagination?.total}
+        rowsPerPage={10}
+        page={pagination?.page - 1}
+        onPageChange={handlePageChange}
+      />
+    </Paper>
   );
 }
 
@@ -89,4 +90,6 @@ CIDTable.propTypes = {
   cidAnalytics: PropTypes.array,
   isLoading: PropTypes.bool,
   onRemove: PropTypes.func.isRequired,
+  pagination: PropTypes.object,
+  onPageChange: PropTypes.func,
 };
