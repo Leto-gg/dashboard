@@ -14,7 +14,14 @@ export const httpClient = axios.create({
 
 async function refreshAccessToken() {
   try {
-    const response = await httpClient.post("/auth/refresh");
+    const response = await axios.post(
+      "/refresh",
+      {},
+      {
+        baseURL: import.meta.env.VITE_AUTH_BASE_URL,
+        withCredentials: true,
+      }
+    );
 
     const { access_token } = response.data;
 
@@ -27,6 +34,7 @@ async function refreshAccessToken() {
     return access_token;
   } catch (error) {
     clearAuthToken();
+    location.href = location.origin;
   }
 }
 
