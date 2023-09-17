@@ -1,5 +1,9 @@
 import axios from "axios";
-import { clearAuthToken, setAuthToken } from "../utils/auth.helpers";
+import {
+  clearAuthToken,
+  getAuthToken,
+  setAuthToken,
+} from "../utils/auth.helpers";
 
 export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -10,7 +14,14 @@ export const httpClient = axios.create({
 
 async function refreshAccessToken() {
   try {
-    const response = await httpClient.post("/auth/refresh");
+    const response = await axios.post(
+      "/refresh",
+      {},
+      {
+        baseURL: import.meta.env.VITE_AUTH_BASE_URL,
+        withCredentials: true,
+      }
+    );
 
     const { access_token } = response.data;
 
@@ -23,6 +34,7 @@ async function refreshAccessToken() {
     return access_token;
   } catch (error) {
     clearAuthToken();
+    location.href = location.origin;
   }
 }
 
@@ -31,7 +43,7 @@ async function refreshAccessToken() {
  * @param {import("axios").InternalAxiosRequestConfig<any>} config
  */
 function configureClient(config) {
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = getAuthToken();
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }

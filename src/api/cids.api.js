@@ -23,5 +23,6 @@ export function getCIDs(page) {
  */
 export function removeCID(cid) {
   console.log("deleting cid", cid);
+  cid = encodeURIComponent(cid);
   return httpClient.delete(`/cids/${cid}`);
 }
