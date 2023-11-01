@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import PropTypes from "prop-types";
 
 import { Alert, Box, CircularProgress, Grid } from "@mui/material";
 
@@ -14,13 +15,7 @@ function useDashboardAnalytics(...params) {
   return query;
 }
 
-function Graph() {
-  const {
-    data: analyticsData = {},
-    isLoading,
-    error,
-  } = useDashboardAnalytics();
-
+function Graph({ analyticsData }) {
   const { data } = analyticsData;
 
   const labels = useMemo(
@@ -31,6 +26,26 @@ function Graph() {
     () => data?.data?.map((data) => data.numbersAccessed) ?? [],
     [data]
   );
+
+  return (
+    <BarChart
+      xAxisLabel="numbersAccessed"
+      labels={labels}
+      dataPoints={dataPoints}
+    />
+  );
+}
+
+Graph.propTypes = {
+  analyticsData: PropTypes.object.isRequired,
+};
+
+function CIDAnalytics() {
+  const {
+    data: analyticsData = {},
+    isLoading,
+    error,
+  } = useDashboardAnalytics();
 
   if (isLoading) {
     return <CircularProgress variant="indeterminate" />;
@@ -46,20 +61,10 @@ function Graph() {
   }
 
   return (
-    <BarChart
-      xAxisLabel="numbersAccessed"
-      labels={labels}
-      dataPoints={dataPoints}
-    />
-  );
-}
-
-function CIDAnalytics() {
-  return (
     <Grid item>
       <MainCard content={false} sx={{ mt: 1.5 }} title="CID Analytics">
         <Box sx={{ padding: 2 }}>
-          <Graph />
+          <Graph analyticsData={analyticsData} />
         </Box>
       </MainCard>
     </Grid>
