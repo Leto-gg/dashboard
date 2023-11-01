@@ -1,18 +1,14 @@
 import { httpClient } from "../libs/axios";
 import { objToQueryString } from "../libs/utils/object.helpers";
 
-const DEFAULT_RANGE = {
-  from: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
-  to: new Date().toISOString(),
-};
-
 /**
  * @param {RangeQuery} range
  */
-export function getAnalytics(range = DEFAULT_RANGE) {
+export function getAnalytics(params) {
+  console.log("params", params);
   let apiUrl = "/dashboard";
-  if (Object.keys(range)) {
-    apiUrl = `${apiUrl}?${objToQueryString(range)}`;
+  if (Object.keys(params)) {
+    apiUrl = `${apiUrl}?${objToQueryString(params)}`;
   }
   return httpClient.get(apiUrl);
 }

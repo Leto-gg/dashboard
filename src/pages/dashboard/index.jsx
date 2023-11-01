@@ -8,9 +8,22 @@ import { BarChart } from "../../components/molecules/barChart";
 import { middleTruncate } from "../../libs/utils/string.helpers";
 import { useQuery } from "react-query";
 import { getAnalytics } from "../../api/analytics.api";
+import useProxyGateway from "../../hooks/useProxyGateway";
+import { useEffect } from "react";
+import { da } from "date-fns/locale";
+import { QUERY_KEY } from "../../libs/constants/query";
 
-function useDashboardAnalytics(...params) {
-  const query = useQuery("analytics", () => getAnalytics(...params));
+const DEFAULT_RANGE = {
+  // 7 days ago
+  from: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString(),
+  // today
+  to: new Date().toISOString(),
+};
+
+function useDashboardAnalytics(params = {}) {
+  const query = useQuery([QUERY_KEY.DASHBOARD_ANALYTICS, params], () =>
+    getAnalytics({ ...DEFAULT_RANGE, ...params }).then((res) => res.data)
+  );
 
   return query;
 }
@@ -19,15 +32,16 @@ function Graph({ analyticsData }) {
   const { data } = analyticsData;
 
   const labels = useMemo(
-    () => data?.data?.map((content) => middleTruncate(content.cid, 6)) ?? [],
+    () => data?.map((content) => middleTruncate(content.cid, 6)) ?? [],
     [data]
   );
   const dataPoints = useMemo(
-    () => data?.data?.map((data) => {
-      data.y = data.numbersAccessed;
-      data.x = data.cid;
-      return data;
-    }) ?? [],
+    () =>
+      data?.map((data) => {
+        data.y = data.numbersAccessed;
+        data.x = data.cid;
+        return data;
+      }) ?? [],
     [data]
   );
 
@@ -45,13 +59,18 @@ Graph.propTypes = {
 };
 
 function CIDAnalytics() {
+  const proxyGateway = useProxyGateway();
+
   const {
     data: analyticsData = {},
     isLoading,
+    isRefetching,
     error,
-  } = useDashboardAnalytics();
+  } = useDashboardAnalytics({
+    gateway: proxyGateway.data?._id,
+  });
 
-  if (isLoading) {
+  if (isLoading || isRefetching || proxyGateway.isLoading) {
     return <CircularProgress variant="indeterminate" />;
   }
 
@@ -60,6 +79,15 @@ function CIDAnalytics() {
       <Alert severity="error">
         Failed to fetch data for the chart, we are working on fixing it as soon
         as possible!
+      </Alert>
+    );
+  }
+
+  if (analyticsData?.data.length === 0) {
+    return (
+      <Alert severity="info">
+        No analytics data found for the tracked CIDs. Make sure you are tracking
+        at least one CID on your account.
       </Alert>
     );
   }
