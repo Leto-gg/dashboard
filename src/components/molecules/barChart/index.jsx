@@ -1,10 +1,35 @@
+import { useState, useMemo, useEffect } from "react";
+import ReactApexChart from "react-apexcharts";
 import PropTypes from "prop-types";
 
 import { useTheme } from "@mui/material/styles";
-import ReactApexChart from "react-apexcharts";
-import { useState } from "react";
-import { useMemo } from "react";
-import { useEffect } from "react";
+
+import { getFormattedDate } from "../../../libs/utils/date.helpers.js";
+
+function getCustomTooltip({ seriesIndex, dataPointIndex, w }) {
+  var data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
+
+  return `<div class="apexcharts-tooltip-title" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">${
+    data.cid
+  }</div>
+  <div class="apexcharts-tooltip-series-group apexcharts-active" style="order: 1; display: flex;">
+      <span class="apexcharts-tooltip-marker" style="background-color: rgba(32, 45, 84, 0.85);"></span>
+      <div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
+          <div><span class="apexcharts-tooltip-text-y-label">Numbers Accessed: </span><span class="apexcharts-tooltip-text-y-value">${
+            data.numbersAccessed
+          }</span></div>
+      </div>
+  </div>
+  <div class="apexcharts-tooltip-series-group apexcharts-active" style="order: 2; display: flex;">
+      <span class="apexcharts-tooltip-marker" style="background-color: rgba(32, 45, 84, 0.85);"></span>
+      <div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
+        <div><span class="apexcharts-tooltip-text-y-label">Last Accessed: </span><span class="apexcharts-tooltip-text-y-value">${getFormattedDate(
+          data.lastAccessed
+        )}</span></div>
+      </div>
+  </div>
+  `;
+}
 
 /**
  * @type {import("react-apexcharts/types/react-apexcharts").Props["options"]}
@@ -36,6 +61,7 @@ const barChartOptions = {
   },
   tooltip: {
     theme: "light",
+    custom: getCustomTooltip,
   },
   yaxis: {
     show: true,

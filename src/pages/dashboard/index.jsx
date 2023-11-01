@@ -23,7 +23,11 @@ function Graph({ analyticsData }) {
     [data]
   );
   const dataPoints = useMemo(
-    () => data?.data?.map((data) => data.numbersAccessed) ?? [],
+    () => data?.data?.map((data) => {
+      data.y = data.numbersAccessed;
+      data.x = data.cid;
+      return data;
+    }) ?? [],
     [data]
   );
 
