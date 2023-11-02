@@ -17,8 +17,18 @@ import {
 
 // project import
 import { activeItem } from "../../../libs/redux/slices/drawer.slice";
+import styled from "styled-components";
 
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
+
+const NewText = styled.span`
+  color: #f44336;
+  font-size: 0.65rem;
+`;
+
+function New() {
+  return <NewText>New</NewText>;
+}
 
 const ListComponent = ({ url, itemTarget, ...props }, ref) => (
   <Link ref={ref} {...props} to={url} target={itemTarget} />
@@ -141,7 +151,7 @@ export const NavItem = ({ item, level }) => {
                 variant="h6"
                 sx={{ color: isSelected ? iconSelectedColor : textColor }}
               >
-                {item.title}
+                {item.title} {item.isNew && <New />}
               </Typography>
               {item.subtitle && (
                 <Typography variant="subtitle2" sx={{ color: textColor }}>

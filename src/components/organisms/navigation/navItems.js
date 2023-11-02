@@ -38,6 +38,7 @@ export const navItems = [
         id: "proxy-gateway",
         title: "Proxy gateway",
         showTitle: false,
+        isNew: true,
         type: "item",
         url: "/proxy-gateway",
         icon: SaveOutlined,
