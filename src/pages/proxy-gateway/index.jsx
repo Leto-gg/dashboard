@@ -65,6 +65,7 @@ function ProxyGatewayField({ proxyURL, previousProxyName, gatewayId }) {
               // clipboard copy button
               <InputAdornment position="end">
                 <IconButton
+                  title="copy proxy url"
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
