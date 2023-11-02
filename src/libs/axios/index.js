@@ -12,6 +12,13 @@ export const httpClient = axios.create({
   },
 });
 
+export const authHttpClient = axios.create({
+  baseURL: import.meta.env.VITE_AUTH_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 async function refreshAccessToken() {
   try {
     const response = await axios.post(
