@@ -14,6 +14,7 @@ export const httpClient = axios.create({
 
 export const authHttpClient = axios.create({
   baseURL: import.meta.env.VITE_AUTH_BASE_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
