@@ -1,14 +1,13 @@
 import { useMutation, useQueryClient } from "react-query";
 import { QUERY_KEY } from "../libs/constants/query";
+import { httpClient } from "../libs/axios";
 
 function useDeleteProxyGateway(gatewayId) {
   const queryClient = useQueryClient();
 
-  const deleteMutation = useMutation(
+  const mutation = useMutation(
     () => {
-      return fetch(`/api/proxy-gateway/${gatewayId}`, {
-        method: "DELETE",
-      });
+      return httpClient.delete(`/gateways/${gatewayId}`);
     },
     {
       onSuccess: () => {
@@ -17,7 +16,7 @@ function useDeleteProxyGateway(gatewayId) {
     }
   );
 
-  return deleteMutation;
+  return mutation;
 }
 
 export default useDeleteProxyGateway;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { DeleteOutlined } from "@ant-design/icons";
 
@@ -18,15 +18,18 @@ function DeleteProxyGatewayButton({ gatewayId }) {
 
   return (
     <Box display="flex" justifyContent="flex-end">
-      <IconButton
+      <LoadingButton
         title="delete proxy gateway"
-        disabled={deleteMutation.isLoading}
+        loading={deleteMutation.isLoading}
+        disabled={!gatewayId}
         aria-label="delete proxy gateway"
         color="error"
+        startIcon={<DeleteOutlined />}
+        variant="contained"
         onClick={handleProxyGatewayDelete}
       >
-        <DeleteOutlined />
-      </IconButton>
+        Delete
+      </LoadingButton>
     </Box>
   );
 }

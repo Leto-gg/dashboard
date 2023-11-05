@@ -22,6 +22,7 @@ import { MainCard } from "../../components/molecules/mainCard";
 import useProxyGateway from "../../hooks/useProxyGateway";
 import useUpdateProxyGateway from "../../hooks/useUpdateProxyGateway";
 import { validateGatewayName } from "../../libs/utils/gateway.helpers";
+import DeleteProxyGatewayButton from "../../components/atoms/deleteProxyGatewayButton";
 
 const CustomInput = styled(OutlinedInput)`
   input {
@@ -137,31 +138,36 @@ function ProxyGateway() {
   const proxyURL = new URL(proxyGatewayQuery.data.proxyURL);
 
   return (
-    <MainCard title="Your Proxy Gateway" classname="d-flex">
-      <Box display="flex" flexDirection="column" gap={2}>
-        <Box display="flex" flexDirection="column" gap={1}>
-          <Typography>You can edit your proxy name here: </Typography>
-          <ProxyGatewayField
-            gatewayId={proxyGatewayQuery.data._id}
-            proxyURL={proxyURL}
-            previousProxyName={proxyGatewayQuery.data.proxyName}
-          />
-        </Box>
-        <Divider />
-        <section>
-          <Typography>
-            Example usage for your gateway url:{" "}
-            <Link
-              href={`${proxyURL.href}/ipfs/bafybeicrjwhn6nifl7tcuhkcitquvpumj426qa7r7ppcya5skmqly5n2la`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {`${proxyURL.href}/ipfs/bafybeicrjwhn6nifl7tcuhkcitquvpumj426qa7r7ppcya5skmqly5n2la`}
-            </Link>
-          </Typography>
-        </section>
+    <Box display="flex" flexDirection="column" gap={4}>
+      <Box display="flex" justifyContent="flex-end">
+        <DeleteProxyGatewayButton gatewayId={proxyGatewayQuery.data?._id} />
       </Box>
-    </MainCard>
+      <MainCard title="Your Proxy Gateway" classname="d-flex">
+        <Box display="flex" flexDirection="column" gap={2}>
+          <Box display="flex" flexDirection="column" gap={1}>
+            <Typography>You can edit your proxy name here: </Typography>
+            <ProxyGatewayField
+              gatewayId={proxyGatewayQuery.data._id}
+              proxyURL={proxyURL}
+              previousProxyName={proxyGatewayQuery.data.proxyName}
+            />
+          </Box>
+          <Divider />
+          <section>
+            <Typography>
+              Example usage for your gateway url:{" "}
+              <Link
+                href={`${proxyURL.href}/ipfs/bafybeicrjwhn6nifl7tcuhkcitquvpumj426qa7r7ppcya5skmqly5n2la`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {`${proxyURL.href}/ipfs/bafybeicrjwhn6nifl7tcuhkcitquvpumj426qa7r7ppcya5skmqly5n2la`}
+              </Link>
+            </Typography>
+          </section>
+        </Box>
+      </MainCard>
+    </Box>
   );
 }
 
