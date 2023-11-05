@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 
 import styled from "styled-components";
 import CircularProgress from "@mui/material/CircularProgress";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import useCreateProxyGateway from "../../hooks/useCreateProxyGateway";
 import useProxyGateway from "../../hooks/useProxyGateway";
 import { MainCard } from "../../components/molecules/mainCard";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { validateGatewayName } from "../../libs/utils/gateway.helpers";
+import { getAxiosResponseErrorMessage } from "../../libs/utils/api.helpers";
 
 const CustomTextField = styled(TextField)`
   label {
@@ -27,13 +27,13 @@ const Form = styled.form`
   gap: 1rem;
 `;
 
-const validGatewayPattern = /((https|http):\/\/)?[a-z0-9]+.link(\/)?/i;
+// const validGatewayPattern = /^((https|http):\/\/)?([a-z0-9-]+\.)?[a-z0-9-]+.link(\/)?$/i;
 
-function isValidGateway(gateway) {
-  if (gateway instanceof URL) gateway = gateway.href;
-  if (!gateway.startsWith("http")) gateway = `https://${gateway}`;
-  return validGatewayPattern.test(gateway);
-}
+// function isValidGateway(gateway) {
+//   if (gateway instanceof URL) gateway = gateway.href;
+//   if (!gateway.startsWith("http")) gateway = `https://${gateway}`;
+//   return validGatewayPattern.test(gateway);
+// }
 
 function getFormErrors(formData) {
   const errors = {};
@@ -42,23 +42,23 @@ function getFormErrors(formData) {
     errors.proxyName = "Proxy name is required";
   }
 
-  if (!validateGatewayName(formData.proxyName)) {
-    errors.proxyName =
-      "Proxy name must be lowercase alphanumeric characters or '-', and must start and end with an alphanumeric character";
-  }
+  // if (!validateGatewayName(formData.proxyName)) {
+  //   errors.proxyName =
+  //     "Proxy name must be lowercase alphanumeric characters or '-', and must start and end with an alphanumeric character";
+  // }
 
   if (!formData.gatewayURL) {
     errors.gatewayURL = "Gateway URL is required";
   }
 
-  if (!isValidGateway(formData.gatewayURL)) {
-    errors.gatewayURL = "Gateway URL is invalid";
-  }
+  // if (!isValidGateway(formData.gatewayURL)) {
+  //   errors.gatewayURL = "Gateway URL is invalid";
+  // }
 
   return errors;
 }
 
-function CreateProxyGatewayForm({ onCreate, isCreating = false }) {
+function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
   const [formData, setFormData] = useState({
     proxyName: "",
     gatewayURL: "",
@@ -85,7 +85,6 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false }) {
 
       const errors = getFormErrors(formData);
 
-      console.log(formData, errors);
       if (Object.keys(errors).length === 0) {
         onCreate(formData);
       } else {
@@ -126,10 +125,19 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false }) {
         </Alert>
       ))}
 
+      {apiError && (
+        <Alert severity="error">{apiError || "Something went wrong"}</Alert>
+      )}
+
       <div>
-        <Button disabled={isCreating} type="submit" variant="contained">
+        <LoadingButton
+          loading={isCreating}
+          variant="contained"
+          style={{ width: 80 }}
+          type="submit"
+        >
           {isCreating ? "Creating..." : "Create"}
-        </Button>
+        </LoadingButton>
       </div>
     </Form>
   );
@@ -138,6 +146,7 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false }) {
 CreateProxyGatewayForm.propTypes = {
   onCreate: PropTypes.func.isRequired,
   isCreating: PropTypes.bool,
+  apiError: PropTypes.string,
 };
 
 function CreateProxyGateway() {
@@ -174,6 +183,7 @@ function CreateProxyGateway() {
         <CreateProxyGatewayForm
           isCreating={proxyGatewayMutation.isLoading}
           onCreate={handleCreate}
+          apiError={getAxiosResponseErrorMessage(proxyGatewayMutation.error)}
         />
       </MainCard>
     </main>
