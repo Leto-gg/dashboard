@@ -21,6 +21,7 @@ function useCIDs() {
     onSuccess: () => {
       setPage(1);
       queryClient.invalidateQueries(QUERY_KEY.CIDS);
+      queryClient.invalidateQueries(QUERY_KEY.DASHBOARD_ANALYTICS);
     },
   });
 
@@ -28,6 +29,7 @@ function useCIDs() {
     onSuccess: () => {
       setPage(1);
       queryClient.invalidateQueries(QUERY_KEY.CIDS);
+      queryClient.invalidateQueries(QUERY_KEY.DASHBOARD_ANALYTICS);
     },
   });
 

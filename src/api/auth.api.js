@@ -1,5 +1,5 @@
-import { httpClient } from "../libs/axios";
+import { authHttpClient } from "../libs/axios";
 
 export async function logoutAPI() {
-  return httpClient.post("/auth/logout");
+  return authHttpClient.post("/logout");
 }

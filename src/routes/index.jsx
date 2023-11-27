@@ -21,6 +21,12 @@ const CIDSPage = SuspenseWrapper(lazy(() => import("../pages/cids")));
 const Configuration = SuspenseWrapper(
   lazy(() => import("../pages/configuration"))
 );
+const CreateProxyGateway = SuspenseWrapper(
+  lazy(() => import("../pages/create-proxy-gateway"))
+);
+const ProxyGateway = SuspenseWrapper(
+  lazy(() => import("../pages/proxy-gateway"))
+);
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -47,6 +53,14 @@ export const routes = [
           {
             path: "/cids",
             element: <CIDSPage />,
+          },
+          {
+            path: "/proxy-gateway",
+            element: <ProxyGateway />,
+          },
+          {
+            path: "/proxy-gateway/create",
+            element: <CreateProxyGateway />,
           },
         ],
       },

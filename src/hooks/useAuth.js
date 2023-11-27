@@ -9,13 +9,17 @@ function useAuth() {
   const navigate = useNavigate();
 
   const logout = useCallback(async () => {
+    clearAuthToken();
     try {
-      await logoutAPI();
+      const { data } = await logoutAPI();
+      if (data?.redirectUrl) {
+        window.location.replace(data.redirectUrl);
+      } else {
+        navigate("/user/login");
+      }
     } catch (error) {
       console.warn(error);
     }
-    clearAuthToken();
-    navigate("/user/login");
   }, [navigate]);
 
   return {

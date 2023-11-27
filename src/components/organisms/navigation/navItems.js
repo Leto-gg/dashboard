@@ -35,6 +35,16 @@ export const navItems = [
         breadcrumbs: true,
       },
       {
+        id: "proxy-gateway",
+        title: "Proxy gateway",
+        showTitle: false,
+        isNew: true,
+        type: "item",
+        url: "/proxy-gateway",
+        icon: SaveOutlined,
+        breadcrumbs: true,
+      },
+      {
         id: "api-configuration",
         title: "API configuration",
         subtitle: "Coming soon!",
