@@ -4,6 +4,10 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -13,6 +17,8 @@ import { MainCard } from "../../components/molecules/mainCard";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getAxiosResponseErrorMessage } from "../../libs/utils/api.helpers";
+import ErrorBoundary from "../../components/atoms/errorBoundary";
+import { Typography } from "@mui/material";
 
 const CustomTextField = styled(TextField)`
   label {
@@ -51,6 +57,10 @@ function getFormErrors(formData) {
     errors.gatewayURL = "Gateway URL is required";
   }
 
+  if (!formData.provider) {
+    errors.provider = "Gateway provider is required";
+  }
+
   // if (!isValidGateway(formData.gatewayURL)) {
   //   errors.gatewayURL = "Gateway URL is invalid";
   // }
@@ -58,10 +68,21 @@ function getFormErrors(formData) {
   return errors;
 }
 
+const supportedGatewayProviders = [
+  { name: "Spheron", value: "spheron" },
+  { name: "w3s", value: "w3s" },
+  { name: "Fleek", value: "fleek" },
+  { name: "Pinata", value: "pinata" },
+  { name: "Lighthouse", value: "lighthouse" },
+  { name: "Quicknode", value: "quicknode" },
+  { name: "Numbers Protocol", value: "numbers_protocol" },
+];
+
 function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
   const [formData, setFormData] = useState({
     proxyName: "",
     gatewayURL: "",
+    provider: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -86,6 +107,7 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
       const errors = getFormErrors(formData);
 
       if (Object.keys(errors).length === 0) {
+        console.log("form data", formData);
         onCreate(formData);
       } else {
         setErrors(errors);
@@ -104,6 +126,25 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
         https://w3s.link
       </Alert>
 
+      <FormControl>
+        <InputLabel id="gateway-provider" style={{ lineHeight: "0.9em" }}>
+          Provider
+        </InputLabel>
+        <Select
+          labelId="gateway-provider"
+          id="gateway-provider"
+          name="provider"
+          value={formData.provider}
+          label="Provider"
+          onChange={handleChange}
+        >
+          {supportedGatewayProviders.map((provider) => (
+            <MenuItem key={provider.value} value={provider.value}>
+              {provider.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <CustomTextField
         aria-label="proxy name"
         onChange={handleChange}
@@ -180,11 +221,19 @@ function CreateProxyGateway() {
   return (
     <main>
       <MainCard title="Create proxy gateway">
-        <CreateProxyGatewayForm
-          isCreating={proxyGatewayMutation.isLoading}
-          onCreate={handleCreate}
-          apiError={getAxiosResponseErrorMessage(proxyGatewayMutation.error)}
-        />
+        <ErrorBoundary
+          fallback={
+            <Typography variant="body1">
+              Something went wrong with the forms.
+            </Typography>
+          }
+        >
+          <CreateProxyGatewayForm
+            isCreating={proxyGatewayMutation.isLoading}
+            onCreate={handleCreate}
+            apiError={getAxiosResponseErrorMessage(proxyGatewayMutation.error)}
+          />
+        </ErrorBoundary>
       </MainCard>
     </main>
   );

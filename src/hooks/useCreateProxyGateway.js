@@ -5,11 +5,8 @@ import { QUERY_KEY } from "../libs/constants/query";
 function useCreateProxyGateway() {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(async ({ proxyName, gatewayURL }) => {
-    const result = await httpClient.post(`/gateways`, {
-      proxyName,
-      gatewayURL,
-    });
+  const mutation = useMutation(async (payload) => {
+    const result = await httpClient.post(`/gateways`, payload);
 
     queryClient.setQueryData(QUERY_KEY.PROXY_GATEWAY, result);
 
