@@ -19,11 +19,16 @@ import { useNavigate } from "react-router-dom";
 import { getAxiosResponseErrorMessage } from "../../libs/utils/api.helpers";
 import ErrorBoundary from "../../components/atoms/errorBoundary";
 import { Typography } from "@mui/material";
+import useGatewayProviders from "../../hooks/useGatewayProviders";
 
 const CustomTextField = styled(TextField)`
   label {
     line-height: 0.95em;
   }
+`;
+
+const ProviderFieldLabel = styled.span`
+  text-transform: capitalize;
 `;
 
 const Form = styled.form`
@@ -68,23 +73,17 @@ function getFormErrors(formData) {
   return errors;
 }
 
-const supportedGatewayProviders = [
-  { name: "Spheron", value: "spheron" },
-  { name: "w3s", value: "w3s" },
-  { name: "Fleek", value: "fleek" },
-  { name: "Pinata", value: "pinata" },
-  { name: "Lighthouse", value: "lighthouse" },
-  { name: "Quicknode", value: "quicknode" },
-  { name: "Numbers Protocol", value: "numbers_protocol" },
-];
-
 function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
   const [formData, setFormData] = useState({
     proxyName: "",
     gatewayURL: "",
     provider: "",
   });
+  const { data: gatewayProviders, isLoading: isProviderFieldLoading } =
+    useGatewayProviders();
   const [errors, setErrors] = useState({});
+
+  console.log(gatewayProviders);
 
   const handleChange = useCallback(
     (event) => {
@@ -115,6 +114,10 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
     [formData, onCreate]
   );
 
+  if (isProviderFieldLoading) {
+    return <CircularProgress variant="indeterminate" />;
+  }
+
   return (
     <Form aria-label="proxy gateway form" onSubmit={handleSubmit}>
       <Alert severity="info">
@@ -137,9 +140,9 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
           label="Provider"
           onChange={handleChange}
         >
-          {supportedGatewayProviders.map((provider) => (
-            <MenuItem key={provider.value} value={provider.value}>
-              {provider.name}
+          {gatewayProviders.map((provider) => (
+            <MenuItem key={provider} className="captialize" value={provider}>
+              <ProviderFieldLabel>{provider}</ProviderFieldLabel>
             </MenuItem>
           ))}
         </Select>
@@ -223,7 +226,7 @@ function CreateProxyGateway() {
         <ErrorBoundary
           fallback={
             <Typography variant="body1">
-              Something went wrong with the forms.
+              Something went wrong with the forms. Please try again later.
             </Typography>
           }
         >
