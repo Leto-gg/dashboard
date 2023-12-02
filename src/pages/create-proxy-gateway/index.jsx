@@ -107,7 +107,6 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
       const errors = getFormErrors(formData);
 
       if (Object.keys(errors).length === 0) {
-        console.log("form data", formData);
         onCreate(formData);
       } else {
         setErrors(errors);
