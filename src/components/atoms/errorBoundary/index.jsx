@@ -7,6 +7,7 @@ class ErrorBoundary extends PureComponent {
   };
 
   static getDerivedStateFromError(error) {
+    console.error(error);
     return { error };
   }
 
@@ -14,12 +15,7 @@ class ErrorBoundary extends PureComponent {
     const { error } = this.state;
 
     if (error) {
-      return (
-        <div>
-          <h1>Something went wrong</h1>
-          <p>{error.message}</p>
-        </div>
-      );
+      return this.props.fallback;
     }
 
     return this.props.children;
@@ -28,6 +24,7 @@ class ErrorBoundary extends PureComponent {
 
 ErrorBoundary.propTypes = {
   children: PropTypes.node.isRequired,
+  fallback: PropTypes.node.isRequired,
 };
 
 export default ErrorBoundary;
