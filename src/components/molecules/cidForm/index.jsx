@@ -14,7 +14,7 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
-const isValidCID = (cid) => isIPFS.cid(cid);
+const isValidCID = (cid) => isIPFS.cid || isIPFS.cidPath(cid);
 
 export function CIDForm({ createCID, isLoading = false }) {
   const [cidValue, setCIDValue] = useState("");
