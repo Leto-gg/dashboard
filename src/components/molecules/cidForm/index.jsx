@@ -5,16 +5,14 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SaveOutlined from "@ant-design/icons/SaveOutlined";
-import * as isIPFS from "is-ipfs";
 import { styled } from "styled-components";
+import { isValidCID } from "../../../libs/utils/ipfs.helpers";
 
 const CustomTextField = styled(TextField)`
   label {
     line-height: 0.95em;
   }
 `;
-
-const isValidCID = (cid) => isIPFS.cid || isIPFS.cidPath(cid);
 
 export function CIDForm({ createCID, isLoading = false }) {
   const [cidValue, setCIDValue] = useState("");
