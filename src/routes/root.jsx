@@ -18,6 +18,7 @@ import { openDrawer } from "../libs/redux/slices/drawer.slice";
 // css
 import "./root.css";
 import { useCallback } from "react";
+import { UserProvider } from "../libs/providers/user.provider";
 
 export default function Root() {
   const theme = useTheme();
@@ -51,22 +52,24 @@ export default function Root() {
   }, [drawerOpen]);
 
   return (
-    <Box sx={{ display: "flex", width: "100%" }}>
-      <AppHeader open={open} handleDrawerToggle={handleDrawerToggle} />
-      <MainDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
-      <Box
-        component="main"
-        sx={{ width: "100%", flexGrow: 1, p: { xs: 2, sm: 3 } }}
-      >
-        <Toolbar />
-        <Breadcrumbs
-          navigation={{
-            items: navItems,
-          }}
-          title
-        />
-        <Outlet />
+    <UserProvider>
+      <Box sx={{ display: "flex", width: "100%" }}>
+        <AppHeader open={open} handleDrawerToggle={handleDrawerToggle} />
+        <MainDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
+        <Box
+          component="main"
+          sx={{ width: "100%", flexGrow: 1, p: { xs: 2, sm: 3 } }}
+        >
+          <Toolbar />
+          <Breadcrumbs
+            navigation={{
+              items: navItems,
+            }}
+            title
+          />
+          <Outlet />
+        </Box>
       </Box>
-    </Box>
+    </UserProvider>
   );
 }

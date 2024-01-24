@@ -18,6 +18,7 @@ import {
 // project import
 import { activeItem } from "../../../libs/redux/slices/drawer.slice";
 import styled from "styled-components";
+import { useLetoUser } from "../../../hooks/useLetoUser";
 
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
 
@@ -38,6 +39,7 @@ export const NavItem = ({ item, level }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const { user, isLoading } = useLetoUser();
 
   const { drawerOpen, openItem } = useSelector((state) => state.drawer);
 
@@ -74,6 +76,13 @@ export const NavItem = ({ item, level }) => {
     // eslint-disable-next-line
   }, [pathname]);
 
+  const hasAccess =
+    !item.allowedTiers || (user && item.allowedTiers.includes(user?.tier));
+
+  if (isLoading || !hasAccess) {
+    return null;
+  }
+
   const textColor = "text.primary";
   const iconSelectedColor = "primary.main";
 
@@ -86,6 +95,7 @@ export const NavItem = ({ item, level }) => {
       onClick={() => itemHandler(item.id)}
       selected={isSelected}
       sx={{
+        display: item.hidden ? "none" : undefined,
         zIndex: 1201,
         pl: drawerOpen ? `${level * 28}px` : 1.5,
         py: !drawerOpen && level === 1 ? 1.25 : 1,

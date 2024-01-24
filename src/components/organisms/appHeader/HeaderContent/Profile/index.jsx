@@ -2,31 +2,25 @@ import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 
 // material-ui
-import { useTheme } from "@mui/material/styles";
 import {
   Avatar,
   Box,
   ButtonBase,
-  CardContent,
-  ClickAwayListener,
-  Grid,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Paper,
-  Popper,
+  Menu,
+  MenuItem,
+  MenuList,
   Stack,
+  Typography,
 } from "@mui/material";
 
-// project import
-import { Transitions } from "../../../../atoms/transitions";
-
 // assets
-import { LogoutOutlined } from "@ant-design/icons";
-import { MainCard } from "../../../../molecules/mainCard";
+import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import useAuth from "../../../../../hooks/useAuth";
+import { useLetoUser } from "../../../../../hooks/useLetoUser";
+import { useNavigate } from "react-router-dom";
 
-// tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
   return (
     <div
@@ -50,13 +44,18 @@ TabPanel.propTypes = {
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 const Profile = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const { logout } = useAuth();
+  const { user } = useLetoUser();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     // logout
-    console.log("onLogout");
     logout();
+  };
+
+  const handleAccountDetails = () => {
+    navigate("/account-details");
   };
 
   const anchorRef = useRef(null);
@@ -83,6 +82,7 @@ const Profile = () => {
           borderRadius: 1,
           "&:hover": { bgcolor: "secondary.lighter" },
         }}
+        id="profile-button"
         aria-label="open profile"
         ref={anchorRef}
         aria-controls={open ? "profile-grow" : undefined}
@@ -90,70 +90,34 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
+          <Typography variant="body1">{user?.name}</Typography>
           <Avatar alt="profile user" sx={{ width: 32, height: 32 }} />
         </Stack>
       </ButtonBase>
-      <Popper
-        placement="bottom-end"
+      <Menu
+        id="profile-menu"
         open={open}
+        onClose={handleClose}
         anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-        popperOptions={{
-          modifiers: [
-            {
-              name: "offset",
-              options: {
-                offset: [0, 9],
-              },
-            },
-          ],
+        MenuListProps={{
+          "aria-labelledby": "profile-button",
         }}
       >
-        {({ TransitionProps }) => (
-          <Transitions type="fade" in={open} {...TransitionProps}>
-            {open && (
-              <Paper
-                sx={{
-                  boxShadow: theme.customShadows.z1,
-                  width: 120,
-                  minWidth: 120,
-                  maxWidth: 120,
-                  [theme.breakpoints.down("md")]: {
-                    maxWidth: 120,
-                  },
-                }}
-              >
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MainCard
-                    elevation={0}
-                    border={false}
-                    content={false}
-                    sx={{ padding: 0 }}
-                  >
-                    <CardContent sx={{ padding: "0 !important" }}>
-                      <Grid sx={{ padding: 0 }} container alignItems="center">
-                        <Grid item width="100%" padding={0}>
-                          <ListItemButton
-                            sx={{ width: "100%" }}
-                            onClick={handleLogout}
-                          >
-                            <ListItemIcon>
-                              <LogoutOutlined />
-                            </ListItemIcon>
-                            <ListItemText primary="Logout" />
-                          </ListItemButton>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </MainCard>
-                </ClickAwayListener>
-              </Paper>
-            )}
-          </Transitions>
-        )}
-      </Popper>
+        <MenuList>
+          <MenuItem onClick={handleAccountDetails}>
+            <ListItemIcon>
+              <SettingOutlined />
+            </ListItemIcon>
+            <ListItemText primary="Account details" />
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutOutlined />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </Box>
   );
 };
