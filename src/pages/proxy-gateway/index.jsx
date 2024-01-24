@@ -41,8 +41,6 @@ function ProxyGatewayField({ proxyURL, previousProxyName, gatewayId }) {
     previousProxyName === proxyName ||
     !validateGatewayName(proxyName);
 
-  console.log(proxyName);
-
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <Alert severity="info">

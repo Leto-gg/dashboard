@@ -83,8 +83,6 @@ function CreateProxyGatewayForm({ onCreate, isCreating = false, apiError }) {
     useGatewayProviders();
   const [errors, setErrors] = useState({});
 
-  console.log(gatewayProviders);
-
   const handleChange = useCallback(
     (event) => {
       const { name, value } = event.target;
