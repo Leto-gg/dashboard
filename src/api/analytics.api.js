@@ -5,7 +5,6 @@ import { objToQueryString } from "../libs/utils/object.helpers";
  * @param {RangeQuery} range
  */
 export function getAnalytics(params) {
-  console.log("params", params);
   let apiUrl = "/dashboard";
   if (Object.keys(params)) {
     apiUrl = `${apiUrl}?${objToQueryString(params)}`;
