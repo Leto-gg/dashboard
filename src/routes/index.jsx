@@ -3,6 +3,8 @@ import { lazy } from "react";
 
 import { SuspenseWrapper } from "./../components/atoms/suspenseWrapper";
 import { Navigate } from "react-router-dom";
+import TierGuard from "../components/templates/TierGuard";
+import { USER_TIER } from "../libs/constants/global";
 
 // Layout renderers
 const Root = SuspenseWrapper(lazy(() => import("./root")));
@@ -26,6 +28,15 @@ const CreateProxyGateway = SuspenseWrapper(
 );
 const ProxyGateway = SuspenseWrapper(
   lazy(() => import("../pages/proxy-gateway"))
+);
+const AccountDetails = SuspenseWrapper(
+  lazy(() => import("../pages/account-details"))
+);
+const MalwareAnalyzer = SuspenseWrapper(
+  lazy(() => import("../pages/malware-analyzer"))
+);
+const CheckoutSession = SuspenseWrapper(
+  lazy(() => import("../pages/checkout-session"))
 );
 
 /**
@@ -55,12 +66,32 @@ export const routes = [
             element: <CIDSPage />,
           },
           {
+            path: "/checkout-session",
+            element: <CheckoutSession />,
+          },
+          {
             path: "/proxy-gateway",
-            element: <ProxyGateway />,
+            element: (
+              <TierGuard>
+                <ProxyGateway />
+              </TierGuard>
+            ),
+          },
+          {
+            path: "/malware-analyzer",
+            element: (
+              <TierGuard allowedTiers={[USER_TIER.BUSINESS]}>
+                <MalwareAnalyzer />
+              </TierGuard>
+            ),
           },
           {
             path: "/proxy-gateway/create",
             element: <CreateProxyGateway />,
+          },
+          {
+            path: "/account-details",
+            element: <AccountDetails />,
           },
         ],
       },
