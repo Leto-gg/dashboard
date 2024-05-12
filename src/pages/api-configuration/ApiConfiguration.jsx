@@ -1,22 +1,10 @@
-import { useState } from "react";
-
 import Stack from "@mui/material/Stack";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
+import { useTabs } from "../../hooks/useTabs";
+
 import { APIKeyTab } from "./APIKeyTab";
-
-const useTabs = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabChange = (_event, tab) => {
-    setActiveTab(tab);
-  };
-
-  const isTabActive = (_tab, index) => activeTab === index;
-
-  return { activeTab, handleTabChange, isTabActive };
-};
 
 const apiTabs = [
   {
@@ -25,8 +13,11 @@ const apiTabs = [
   },
 ];
 
+const DEFAULT_TAB_INDEX = 0;
+
 export function ApiConfiguration() {
-  const { activeTab, handleTabChange, isTabActive } = useTabs();
+  const { activeTab, handleTabChange } = useTabs(DEFAULT_TAB_INDEX, apiTabs);
+
   return (
     <Stack spacing={3}>
       <Tabs
@@ -38,11 +29,14 @@ export function ApiConfiguration() {
           <Tab key={index} label={tab.label} />
         ))}
       </Tabs>
-      {apiTabs.map((tab, index) => (
-        <Stack key={index} hidden={isTabActive(tab, index)}>
-          <tab.component />
-        </Stack>
-      ))}
+      {apiTabs.map((tab, index) => {
+        const TabComponent = tab.component;
+        return (
+          <Stack key={index} hidden={index !== activeTab}>
+            <TabComponent />
+          </Stack>
+        );
+      })}
     </Stack>
   );
 }
