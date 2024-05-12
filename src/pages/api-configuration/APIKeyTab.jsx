@@ -5,7 +5,7 @@ import { MainCard } from "../../components/molecules/mainCard";
 export function APIKeyTab() {
   return (
     <Stack spacing={3}>
-      <MainCard title="API Key configuration"></MainCard>
+      <MainCard title="API key configuration"></MainCard>
     </Stack>
   );
 }

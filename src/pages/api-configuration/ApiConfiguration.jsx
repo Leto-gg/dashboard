@@ -8,7 +8,7 @@ import { APIKeyTab } from "./APIKeyTab";
 
 const apiTabs = [
   {
-    label: "API Key",
+    label: "API KEY",
     component: APIKeyTab,
   },
 ];
@@ -21,7 +21,7 @@ export function ApiConfiguration() {
   return (
     <Stack spacing={3}>
       <Tabs
-        aria-label="API Configuration Tabs"
+        aria-label="API configuration tabs"
         value={activeTab}
         onChange={handleTabChange}
       >

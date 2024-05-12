@@ -59,7 +59,7 @@ export const navItems = [
       },
       {
         id: "api-configuration",
-        title: "API configuration",
+        title: "API Configuration",
         isNew: true,
         disabled: false,
         type: "item",
