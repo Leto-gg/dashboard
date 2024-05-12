@@ -5,6 +5,7 @@ import { SuspenseWrapper } from "./../components/atoms/suspenseWrapper";
 import { Navigate } from "react-router-dom";
 import TierGuard from "../components/templates/TierGuard";
 import { USER_TIER } from "../libs/constants/global";
+import ApiConfiguration from "../pages/api-configuration";
 
 // Layout renderers
 const Root = SuspenseWrapper(lazy(() => import("./root")));
@@ -71,17 +72,21 @@ export const routes = [
           },
           {
             path: "/proxy-gateway",
-            element: (
-              <TierGuard>
-                <ProxyGateway />
-              </TierGuard>
-            ),
+            element: <ProxyGateway />,
           },
           {
             path: "/malware-analyzer",
             element: (
               <TierGuard allowedTiers={[USER_TIER.BUSINESS]}>
                 <MalwareAnalyzer />
+              </TierGuard>
+            ),
+          },
+          {
+            path: "/api-configuration",
+            element: (
+              <TierGuard allowedTiers={[USER_TIER.BUSINESS]}>
+                <ApiConfiguration />
               </TierGuard>
             ),
           },
