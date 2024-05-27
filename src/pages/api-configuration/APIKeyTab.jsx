@@ -3,15 +3,19 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
+
 import { useTheme } from "@mui/material";
 
 import LockFilled from "@ant-design/icons/LockFilled";
 
 import { MainCard } from "../../components/molecules/mainCard";
+import { useState } from "react";
+import { CreateSecretKeyModal } from "./CreateSecretKeyModal";
 
 function CreateAPIKey() {
+  const [showSecretKeyModal, setShowSecretKeyModal] = useState(false);
   const theme = useTheme();
-  console.log("primary color", theme.palette.primary.main);
+
   return (
     <Box
       display="flex"
@@ -27,8 +31,13 @@ function CreateAPIKey() {
         borderRadius: 2,
       }}
     >
+      <CreateSecretKeyModal
+        open={showSecretKeyModal}
+        onClose={() => setShowSecretKeyModal(false)}
+      />
       <Box
         sx={{
+          // 1 unit = 8px
           borderRadius: 3,
           padding: theme.spacing(0.25, 1.25, 0.25, 1.25),
           color: theme.palette.grey[600],
@@ -41,9 +50,14 @@ function CreateAPIKey() {
         <LockFilled />
       </Box>
       <Typography variant="subtitle1">
-        You currently have no API key created.
+        You currently have no API key created. Create an API key access Leto
+        APIs
       </Typography>
-      <Button variant="contained" startIcon={<PlusOutlined />}>
+      <Button
+        variant="contained"
+        startIcon={<PlusOutlined />}
+        onClick={() => setShowSecretKeyModal(true)}
+      >
         Create new secret key
       </Button>
     </Box>
